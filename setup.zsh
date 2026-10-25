@@ -335,12 +335,12 @@ prefer_trackpad() {
   defaults -currentHost write -g com.apple.mouse.tapBehavior -int 1
   defaults -currentHost write -g com.apple.trackpad.twoFingerDoubleTapGesture -int 0
   defaults write -g com.apple.trackpad.scaling -float 1.5
-  if defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true 2>/dev/null; then
-    defaults write com.apple.universalaccess closeViewScrollWheelModifiersInt -int 262144
-  else
-    # Needs Full Disk Access, which is too much to give a terminal that runs AI agents
+  # Writing this can need Full Disk Access, which is too much to give a terminal that runs AI agents
+  {
+    defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true &&
+      defaults write com.apple.universalaccess closeViewScrollWheelModifiersInt -int 262144
+  } 2>/dev/null ||
     print -P "%F{yellow}Skipped Control + scroll zoom: turn it on in System Settings › Accessibility › Zoom%f" >&2
-  fi
 }
 
 prefer_dock() {
