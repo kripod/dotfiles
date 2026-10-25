@@ -100,6 +100,21 @@ offer() {
   offers+=("$@")
 }
 
+offer install_chrome on "Browser: Google Chrome"
+install_chrome() {
+  brew install --cask google-chrome
+  local handlers=~/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist
+  if [[ $(plutil -extract LSHandlers json -o - $handlers 2>/dev/null | jq -r '.[] | select(.LSHandlerURLScheme == "https") | .LSHandlerRoleAll') != com.google.chrome ]]; then
+    # macOS asks to confirm the switch. Chrome only reads the flag when it isn't running yet.
+    open -a "Google Chrome" --args --make-default-browser
+  fi
+}
+
+offer install_firefox on "Browser: Firefox"
+install_firefox() {
+  brew install --cask firefox
+}
+
 offer install_vscode on "Dev: Visual Studio Code"
 install_vscode() {
   brew install --cask visual-studio-code
@@ -131,32 +146,17 @@ install_dory() {
   fi
 }
 
+offer install_postico on "Dev: Postico (PostgreSQL)"
+install_postico() {
+  brew install --cask postico
+}
+
 offer install_asimov on "Dev: Asimov (keeps node_modules and similar out of Time Machine)"
 install_asimov() {
   brew install --formula asimov
   if ! brew services info asimov --json | jq -e '.[0].loaded' >/dev/null; then
     brew services start asimov
   fi
-}
-
-offer install_postico on "Dev: Postico (PostgreSQL)"
-install_postico() {
-  brew install --cask postico
-}
-
-offer install_chrome on "Browser: Google Chrome"
-install_chrome() {
-  brew install --cask google-chrome
-  local handlers=~/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist
-  if [[ $(plutil -extract LSHandlers json -o - $handlers 2>/dev/null | jq -r '.[] | select(.LSHandlerURLScheme == "https") | .LSHandlerRoleAll') != com.google.chrome ]]; then
-    # macOS asks to confirm the switch. Chrome only reads the flag when it isn't running yet.
-    open -a "Google Chrome" --args --make-default-browser
-  fi
-}
-
-offer install_firefox on "Browser: Firefox"
-install_firefox() {
-  brew install --cask firefox
 }
 
 offer install_ffmpeg on "Media: FFmpeg"
@@ -174,17 +174,6 @@ install_keycastr() {
   brew install --cask keycastr
 }
 
-offer install_qpdf off "Utility: qpdf (removes PDF passwords, merges PDFs)"
-install_qpdf() {
-  brew install --formula qpdf
-}
-
-offer install_tailscale off "Network: Tailscale"
-install_tailscale() {
-  # Asks to allow its network extension in Privacy & Security on first launch
-  brew install --cask tailscale-app
-}
-
 offer install_slack off "Work: Slack"
 install_slack() {
   brew install --cask slack
@@ -196,14 +185,25 @@ install_zoom() {
   brew install --cask zoom
 }
 
+offer install_office off "Work: Microsoft Word, Excel and PowerPoint"
+install_office() {
+  brew install --cask microsoft-word microsoft-excel microsoft-powerpoint
+}
+
 offer install_granola off "Work: Granola"
 install_granola() {
   brew install --cask granola
 }
 
-offer install_office off "Work: Microsoft Word, Excel and PowerPoint"
-install_office() {
-  brew install --cask microsoft-word microsoft-excel microsoft-powerpoint
+offer install_qpdf off "Utility: qpdf (removes PDF passwords, merges PDFs)"
+install_qpdf() {
+  brew install --formula qpdf
+}
+
+offer install_tailscale off "Network: Tailscale"
+install_tailscale() {
+  # Asks to allow its network extension in Privacy & Security on first launch
+  brew install --cask tailscale-app
 }
 
 choose_apps() {
