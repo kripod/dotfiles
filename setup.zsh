@@ -398,6 +398,19 @@ prefer_finder() {
   defaults write -g NSDocumentSaveNewDocumentsToCloud -bool false
 }
 
+prefer_terminal() {
+  # MonoLisa is a paid font, so it's installed by hand from monolisa.dev and never kept in this repo.
+  # These are v1's file and font names. v3 renamed them.
+  local -a fonts=(~/Library/Fonts/MonoLisa-Regular.*(N) /Library/Fonts/MonoLisa-Regular.*(N))
+  if (( $#fonts )); then
+    osascript -e 'tell application "Terminal" to tell settings set "Basic"' \
+      -e 'set font name to "MonoLisa-Regular"' -e 'set font size to 14' -e 'set font antialiasing to true' \
+      -e 'end tell'
+  else
+    print -P "%F{yellow}MonoLisa isn't installed. Get it from monolisa.dev and rerun to use it in Terminal%f" >&2
+  fi
+}
+
 prefer_screenshots() {
   defaults write com.apple.screencapture show-thumbnail -bool false
   defaults write com.apple.screencapture showsClicks -bool true
@@ -496,6 +509,7 @@ if read -q "?Apply personal preferences (dark mode, Dock on the left, tap to cli
   prefer_trackpad
   prefer_dock
   prefer_finder
+  prefer_terminal
   prefer_screenshots
   prefer_privacy
   prefer_login
