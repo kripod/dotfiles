@@ -434,7 +434,6 @@ prefer_privacy() {
 prefer_login() {
   # Windows don't reopen after logging back in
   defaults write com.apple.loginwindow TALLogoutSavesState -bool false
-  add_login_item /System/Applications/Mail.app
 }
 
 apply_settings() {
