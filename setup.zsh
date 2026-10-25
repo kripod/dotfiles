@@ -147,6 +147,11 @@ install_postico() {
 offer install_chrome on "Browser: Google Chrome"
 install_chrome() {
   brew install --cask google-chrome
+  local handlers=~/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist
+  if [[ $(plutil -extract LSHandlers json -o - $handlers 2>/dev/null | jq -r '.[] | select(.LSHandlerURLScheme == "https") | .LSHandlerRoleAll') != com.google.chrome ]]; then
+    # macOS asks to confirm the switch. Chrome only reads the flag when it isn't running yet.
+    open -a "Google Chrome" --args --make-default-browser
+  fi
 }
 
 offer install_firefox on "Browser: Firefox"
