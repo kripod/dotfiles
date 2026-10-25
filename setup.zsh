@@ -267,6 +267,12 @@ setup_keyboard() {
   done
 }
 
+setup_safari() {
+  # Safari › Settings › Advanced › Show features for web developers. Safari reads this copy outside its
+  # protected container, unlike Tab highlighting, which stays manual.
+  defaults write com.apple.Safari.SandboxBroker ShowDevelopMenu -bool true
+}
+
 setup_finder() {
   # Exposes disguised names like invoice.pdf.app
   defaults write -g AppleShowAllExtensions -bool true
@@ -479,6 +485,7 @@ setup_mise
 install_chosen_apps
 setup_rendering
 setup_keyboard
+setup_safari
 setup_finder
 setup_privacy
 setup_spotlight
@@ -498,4 +505,4 @@ fi
 apply_settings
 setup_git
 
-print "Done. Still manual: App Store apps, logging in to apps, and in Safari › Settings › Advanced, the web developer features and Tab highlighting."
+print "Done. Still manual: App Store apps, logging in to apps, and Tab highlighting in Safari › Settings › Advanced."
