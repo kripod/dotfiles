@@ -76,12 +76,14 @@ setup_dotfiles() {
 setup_homebrew() {
   # The installer also installs the Xcode Command Line Tools (git, clang) when they're missing
   if [[ ! -x /opt/homebrew/bin/brew ]]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
   append_once ~/.zprofile 'eval "$(/opt/homebrew/bin/brew shellenv zsh)"'
   eval "$(/opt/homebrew/bin/brew shellenv zsh)"
   # Homebrew ignores DO_NOT_TRACK
   brew analytics off
+  # Installs that pull in dependencies would otherwise wait for a y/N. The app checklist already asked.
+  export HOMEBREW_NO_ASK=1
 }
 
 setup_mise() {
