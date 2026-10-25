@@ -247,6 +247,13 @@ setup_rendering() {
   defaults write -g AppleShowScrollBars -string Always
   # Renders text at its real weight, the way designs show it, without macOS's extra boldening
   defaults -currentHost write -g AppleFontSmoothing -int 0
+  # True Tone shifts colors with ambient light, so designs look different from what others see. Its
+  # setting has no defaults key, only CoreBrightness's private client, which no-ops without support
+  osascript -l JavaScript >/dev/null <<'EOF'
+$.NSBundle.bundleWithPath("/System/Library/PrivateFrameworks/CoreBrightness.framework").load;
+const client = $.NSClassFromString("CBTrueToneClient").alloc.init;
+if (client.supported) client.setEnabled(false);
+EOF
 }
 
 setup_keyboard() {
