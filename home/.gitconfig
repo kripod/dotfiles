@@ -1,0 +1,41 @@
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[init]
+	defaultBranch = main
+[feature]
+	# Index v4, untracked cache and unhashed index writes
+	manyFiles = true
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+[help]
+	autocorrect = prompt
+[commit]
+	verbose = true
+[rerere]
+	# Replays recorded resolutions into the working tree only (autoUpdate is off)
+	enabled = true
+[fetch]
+	prune = true
+[push]
+	autoSetupRemote = true
+	followTags = true
+	useForceIfIncludes = true
+[merge]
+	conflictStyle = zdiff3
+[safe]
+	bareRepository = explicit
+# This machine's signing settings. Git skips the include while the file doesn't exist
+[include]
+	path = ~/.config/git/signing

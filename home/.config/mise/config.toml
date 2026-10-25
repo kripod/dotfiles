@@ -1,0 +1,8 @@
+[settings]
+# Reads .nvmrc, packageManager and .python-version in projects
+idiomatic_version_file_enable_tools = ["node", "pnpm", "python"]
+
+# Used outside projects. A project's own version files take precedence
+[tools]
+node = "lts"
+python = "latest"
