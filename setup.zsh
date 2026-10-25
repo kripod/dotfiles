@@ -314,6 +314,8 @@ prefer_appearance() {
   defaults write -g AppleScrollerPagingBehavior -bool true
   defaults write -g com.apple.sound.uiaudio.enabled -bool false
   defaults -currentHost write com.apple.controlcenter BatteryShowPercentage -bool true
+  # Always shows the Sound menu bar icon, for switching between speakers and headphones
+  defaults -currentHost write com.apple.controlcenter Sound -int 18
   # Hides the Spotlight menu bar icon. Command + Space still works
   defaults -currentHost write com.apple.controlcenter Spotlight -int 8
   defaults -currentHost write com.apple.Spotlight MenuItemHidden -bool true
