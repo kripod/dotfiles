@@ -123,6 +123,8 @@ install_claude_code() {
 offer install_dory on "Dev: Dory (Docker containers)"
 install_dory() {
   if [[ ! -d /Applications/Dory.app ]]; then
+    # Installing by full name works untrusted, but a plain `brew upgrade` skips untrusted casks
+    brew trust --cask augani/dory/dory
     brew install --cask augani/dory/dory
     # The first launch starts its engine and adds ~/.dory/bin to the shell profiles
     open -a Dory
